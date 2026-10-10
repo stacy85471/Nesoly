@@ -39,3 +39,14 @@ python3 render_reel_concentrations.py source/carrousel_concentrations nesoly_ree
 ```
 
 Les textes et les durées se modifient dans `SCENES`.
+
+## « Sentir bon, sans parfum » (page HTML animée + MP4)
+
+Dossier `sans_parfum/` :
+
+- `nesoly_sans_parfum.html` : page autonome en 1080×1920 qui dure 45 s. Elle démarre seule et affiche un bouton « Rejouer » à la fin. Les photos y sont intégrées.
+- `nesoly_sans_parfum.mp4` : la même animation exportée en vidéo.
+- `build.py` régénère la page à partir de `template.html`, des photos (passées en bichromie marron/crème) et des polices déposées dans `fonts/`.
+- `capture.py` exporte la page en MP4 avec Chromium sans interface.
+
+Tant que les fichiers Chillax et Now ne sont pas dans `fonts/`, la page utilise Outfit et Jost à leur place.

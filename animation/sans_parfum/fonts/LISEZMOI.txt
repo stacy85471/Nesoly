@@ -1,0 +1,4 @@
+Dépose ici les fichiers des polices Chillax et Now (.woff2, .woff, .otf ou .ttf),
+par exemple Chillax-Medium.woff2, Chillax-Semibold.woff2, Now-Light.otf,
+puis lance : python3 build.py
+Elles seront intégrées directement dans nesoly_sans_parfum.html.
