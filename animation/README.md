@@ -26,3 +26,16 @@ python3 render_reel.py source/nesoly_logo.png /tmp/apercu --preview   # quelques
 Le logo animé seul se génère avec `render_logo.py`, qui produit `nesoly_logo_16x9.mp4` et `nesoly_logo_9x16.mp4`.
 
 Polices : Cormorant Garamond et Jost, toutes deux sous licence SIL OFL (voir `fonts/`).
+
+## Reel « niveaux de concentrés parfumants » (Instagram)
+
+`nesoly_reel_concentrations.mp4`, en 1080×1920, dure 31 s, sans piste audio. Il est construit à partir des visuels du carrousel (`source/carrousel_concentrations/`) :
+
+- `carousel_assets.py` reconstruit la photo de fond sans texte en combinant les 5 visuels, puis extrait l'en-tête NESOLY et le logo.
+- `render_reel_concentrations.py` anime la photo avec un mouvement de caméra lent et des transitions en flou de filé. Il recompose les encadrés roses et les sous-titres dans le style du carrousel, puis termine sur le logo.
+
+```
+python3 render_reel_concentrations.py source/carrousel_concentrations nesoly_reel_concentrations.mp4
+```
+
+Les textes et les durées se modifient dans `SCENES`.
