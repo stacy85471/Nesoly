@@ -1,9 +1,9 @@
 """Paste the rendered posters into photos of metro poster frames (perspective + lighting).
 
-Usage: python3 mockup_metro.py source/metro_couloir.jpg source/metro_quai.jpg
-       -> out/mockup_couloir.jpg, out/mockup_quai.jpg
+Usage: python3 mockup_metro.py source/metro_couloir.jpg source/metro_quai.jpg source/metro_escalier.jpg
+       -> out/mockup_couloir.jpg, out/mockup_quai.jpg, out/mockup_escalier.jpg
 
-The frame corners below match the two reference photos (couloir: 2000x923, quai: 923x2000).
+The frame corners below match the reference photos (couloir: 2000x923, quai: 923x2000, escalier: 864x1872).
 """
 import os
 import sys
@@ -24,6 +24,10 @@ SCENES = {
     ],
     "quai": [
         ("nesoly_affiche_paysage", [(100, 747), (857, 752), (849, 1279), (118, 1320)]),
+    ],
+    # The left edge of this frame is cut by the photo: the poster runs slightly past it.
+    "escalier": [
+        ("nesoly_affiche_paysage", [(-3, 759), (475, 763), (473, 1073), (29, 1157)]),
     ],
 }
 
@@ -49,7 +53,7 @@ def paste(photo, poster, corners):
 
 
 def main():
-    photos = dict(zip(["couloir", "quai"], sys.argv[1:3]))
+    photos = dict(zip(["couloir", "quai", "escalier"], sys.argv[1:4]))
     for scene, path in photos.items():
         img = cv2.imread(path)
         for name, corners in SCENES[scene]:
