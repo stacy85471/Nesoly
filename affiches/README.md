@@ -11,7 +11,7 @@ Le logo nesoly est en crème (#F2EDE6) sur le marron nesoly (#3E2E31), avec le s
 
 Chaque affiche existe en PNG et en PDF. Le PDF garde le logo et le slogan en vectoriel.
 
-`out/mockup_couloir.jpg`, `out/mockup_quai.jpg` et `out/mockup_escalier.jpg` montrent les affiches en situation dans le métro.
+`out/mockup_couloir.jpg`, `out/mockup_quai.jpg` et `out/mockup_escalier.jpg` montrent les affiches en situation dans le métro. `out/mockup_escalier_4k.jpg` en est la version 4K (2160×4680) : la photo est agrandie par super-résolution (EDSR) et l’affiche y est incrustée en pleine définition (`python3 mockup_4k.py escalier source/metro_escalier.jpg EDSR_x4.pb`).
 
 ```
 cd affiches
