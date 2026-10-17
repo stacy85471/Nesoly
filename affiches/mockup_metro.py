@@ -17,13 +17,13 @@ OUT = os.path.join(HERE, "out")
 # (poster, corners TL, TR, BR, BL in photo pixels)
 SCENES = {
     "couloir": [
-        ("nesoly_affiche_expo_paysage", [(25, 357), (318, 315), (393, 815), (97, 762)]),
-        ("nesoly_affiche_rituel_paysage", [(352, 303), (922, 205), (990, 895), (432, 830)]),
+        ("nesoly_affiche_paysage", [(25, 357), (318, 315), (393, 815), (97, 762)]),
+        ("nesoly_affiche_paysage", [(352, 303), (922, 205), (990, 895), (432, 830)]),
         # Third frame runs past the edge of the photo: corners extrapolated from the visible part.
-        ("nesoly_affiche_expo_paysage", [(1003, 183), (2350, -60), (2450, 1330), (1100, 1015)]),
+        ("nesoly_affiche_paysage", [(1003, 183), (2350, -60), (2450, 1330), (1100, 1015)]),
     ],
     "quai": [
-        ("nesoly_affiche_rituel_paysage", [(100, 747), (857, 752), (849, 1279), (118, 1320)]),
+        ("nesoly_affiche_paysage", [(100, 747), (857, 752), (849, 1279), (118, 1320)]),
     ],
 }
 
@@ -38,8 +38,8 @@ def paste(photo, poster, corners):
     mask = cv2.GaussianBlur(mask, (3, 3), 0).astype(np.float32)[..., None] / 255
 
     # Lighting: the brightest paper in the original poster gives the local light level and colour cast.
-    paper = cv2.dilate(photo, np.ones((61, 61), np.uint8))
-    paper = cv2.GaussianBlur(paper.astype(np.float32), (0, 0), 45)
+    paper = cv2.dilate(photo, np.ones((161, 161), np.uint8))
+    paper = cv2.GaussianBlur(paper.astype(np.float32), (0, 0), 90)
     light = paper / 238.0
     lit = np.clip(warped.astype(np.float32) * light, 0, 255)
     lit = cv2.GaussianBlur(lit, (0, 0), 0.7)  # match the photo's softness
