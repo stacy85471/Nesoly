@@ -32,21 +32,24 @@ SCENES = {
 }
 
 
-def paste(photo, poster, corners):
+def paste(photo, poster, corners, scale=1):
+    """scale: how many times larger `photo` is than the reference photo the corners were measured on."""
     h, w = photo.shape[:2]
     ph, pw = poster.shape[:2]
-    dst = np.float32(corners)
+    dst = np.float32(corners) * scale
     m = cv2.getPerspectiveTransform(np.float32([(0, 0), (pw, 0), (pw, ph), (0, ph)]), dst)
     warped = cv2.warpPerspective(poster, m, (w, h), flags=cv2.INTER_AREA, borderMode=cv2.BORDER_CONSTANT)
     mask = cv2.warpPerspective(np.full((ph, pw), 255, np.uint8), m, (w, h), flags=cv2.INTER_AREA)
-    mask = cv2.GaussianBlur(mask, (3, 3), 0).astype(np.float32)[..., None] / 255
+    mask = cv2.GaussianBlur(mask, (0, 0), 0.5 * scale).astype(np.float32)[..., None] / 255
 
     # Lighting: the brightest paper in the original poster gives the local light level and colour cast.
-    paper = cv2.dilate(photo, np.ones((161, 161), np.uint8))
+    # Worked out at reference size, so the kernels below keep their meaning whatever the scale.
+    small = cv2.resize(photo, (round(w / scale), round(h / scale)), interpolation=cv2.INTER_AREA) if scale != 1 else photo
+    paper = cv2.dilate(small, np.ones((161, 161), np.uint8))
     paper = cv2.GaussianBlur(paper.astype(np.float32), (0, 0), 90)
-    light = paper / 238.0
+    light = cv2.resize(paper, (w, h), interpolation=cv2.INTER_CUBIC) / 238.0 if scale != 1 else paper / 238.0
     lit = np.clip(warped.astype(np.float32) * light, 0, 255)
-    lit = cv2.GaussianBlur(lit, (0, 0), 0.7)  # match the photo's softness
+    lit = cv2.GaussianBlur(lit, (0, 0), 0.7 * scale)  # match the photo's softness
     noise = np.random.default_rng(0).normal(0, 2.5, lit.shape).astype(np.float32)
     lit = np.clip(lit + noise, 0, 255)
     return (photo * (1 - mask) + lit * mask).astype(np.uint8)
